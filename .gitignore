@@ -10,5 +10,6 @@ npm-debug.log
 # Nuxt generate
 dist
 
-# OS Specfic
+# OS Specfic & Misc
 .DS_Store
+TODO.md
