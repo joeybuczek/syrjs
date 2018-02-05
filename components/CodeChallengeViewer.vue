@@ -112,6 +112,8 @@ export default {
         if (eval(`${editorOutput} ${test.test}`)) {
           passed.push(i);
         };
+        // var testing = eval(editorOutput);
+        // console.log(JSON.stringify(testing, null, 2));
       });
       component.testsPassed = passed;
     }

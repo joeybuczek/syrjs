@@ -12,7 +12,7 @@ export default {
   props: {
     editorId: { type: String, default: 'editor' },
     value: { type: String, default: '' },
-    mode: { type: String, default: 'javascript' },
+    mode: { type: [String, Object], default: () => ({ name: 'javascript', json: true}) },
     lineNumbers: { type: Boolean, default: true },
     theme: { type: String, default: '' },
     onValueChange: { type: Function }

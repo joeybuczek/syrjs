@@ -17,6 +17,7 @@
       To see all the upcoming events to attend, click 
       <a href="https://www.meetup.com/Syracuse-Software-Development-Meetup/events/" target="_blank">here.</a>
     </p>
+    <pre>{{testing}}</pre>
   </div>
 </template>
 
@@ -26,6 +27,11 @@ import AppLogo from '~/components/AppLogo.vue'
 export default {
   components: {
     AppLogo
+  },
+  computed: {
+    testing () {
+      return this.$store.getters.getSuccessfulTest; // LEFT OFF HERE!!!
+    }
   }
 }
 </script>
