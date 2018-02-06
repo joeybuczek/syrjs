@@ -7,20 +7,11 @@
         <span class="logo-text-js">js</span>
         <span class="logo-text-syr">)</span>
       </nuxt-link>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <nuxt-link class="nav-link" to="codechallenges">Code Challenges</nuxt-link>
-        </li>
-      </ul>
+      <nuxt-link class="nav-link" to="codechallenges">Code Challenges</nuxt-link>
     </nav>
 
   </div>
 </template>
-
-<script>
-export default {
-}
-</script>
 
 <style>
 .navbar-brand {
@@ -30,8 +21,10 @@ export default {
 .nav-link {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
-  position: relative;
-  top: 2px;
+  color: #aaa;
+}
+.nav-link:hover {
+  color: white;
 }
 .navbar-spacer {
   margin-bottom: 60px;

@@ -57,26 +57,12 @@ import ch01 from '../codechallenges/reverse_a_string';
 import ch02 from '../codechallenges/validate_a_palindrome';
 import { processEditor } from '../codechallenges/utils';
 
-// defaults
-const challengeDefault = { 
-  tests: [], 
-  code: '', 
-  info: '', 
-  title: 'Select a Challenge!' 
-};
-
-// TODO: as an entire app goes, users should be able to cache/reset their code
-// TODO: try to tidy this section up!
+// TODO: users should be able to cache/reset their code in the session
 export default {
   components: { Editor },
   data () {
     return {
       selected: 0,
-      challenges: [ // TODO: these should eventually be 'loaded' from elsewhere
-        challengeDefault,
-        ch01,
-        ch02
-      ],
       testsPassed: [],
       codeEditorValue: '// Code goes here...',
       testEditorValue: '// Tests go here...',
@@ -102,6 +88,7 @@ export default {
     }
   },
   computed: {
+    challenges () { return this.$store.getters.codeChallenges; },
     showExceptionMsg () { return !!this.exceptionMessage; },
     currentTests () { return this.challenges[this.selected].tests; },
     currentCode () { return this.challenges[this.selected].code; },
