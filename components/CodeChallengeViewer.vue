@@ -1,7 +1,7 @@
 <template>
   <div id="code-challenge-viewer-container">
 
-    <!-- Header -->
+    <!-- Title and Challenge Selection -->
     <div class="row">
       <div class="col-sm-4">
         <h2 class="title">Code Challenge</h2>
@@ -40,7 +40,9 @@
           theme="monokai"
           :onValueChange="codeEditorChange">
         </editor>
-        <pre v-show="showExceptionMsg" class="exception-area">{{exceptionMessage}}</pre>
+        <pre v-show="showExceptionMsg" class="exception-area">
+          {{exceptionMessage}}
+        </pre>
       </div>
     </div>
 
