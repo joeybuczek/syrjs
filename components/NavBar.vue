@@ -30,6 +30,8 @@ export default {
 .nav-link {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
+  position: relative;
+  top: 2px;
 }
 .navbar-spacer {
   margin-bottom: 60px;

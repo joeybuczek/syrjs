@@ -50,12 +50,13 @@
 <script>
 import Editor from './Editor';
 
-// import tests/challenges
+// import tests/challenges/utils
 import ch01 from '../codechallenges/reverse_a_string';
 import ch02 from '../codechallenges/validate_a_palindrome';
+import { processEditor } from '../codechallenges/utils';
 
 // defaults
-var challengeDefault = { 
+const challengeDefault = { 
   tests: [], 
   code: '', 
   info: '', 
@@ -81,64 +82,32 @@ export default {
     }
   },
   methods: {
-    testPassed (i) {
-      return this.testsPassed.indexOf(i) >= 0 ? '✅' : '❌';
-    },
-    codeEditorChange (value) {
-      this.codeEditorValue = value;
-    },
+    testPassed (i) { return this.testsPassed.indexOf(i) >= 0 ? '✅' : '❌'; },
+    codeEditorChange (value) { this.codeEditorValue = value; },
     resetDataOnSelection () {
-      var component = this;
-      component.exceptionMessage = '';
-      component.testsPassed = [];
-      setTimeout(() => component.processEditor(), 200);
+      let ccv = this;
+      ccv.exceptionMessage = '';
+      ccv.testsPassed = [];
+      setTimeout(() => ccv.processEditor(), 200);
     },
     processEditor () {
-      var component = this;
-      var presets = ['es2015', 'react', 'stage-0'];
-      var editorOutput;
-
-      // clear exception messages, then check editor values for exceptions
-      this.exceptionMessage = '';
-      try {
-        editorOutput = Babel.transform(this.codeEditorValue, { presets }).code;
-      } catch(e){
-        this.exceptionMessage = e.message;
-      }
-
-      // run tests
-      var passed = [];
-      component.challenges[component.selected].tests.forEach((test, i) => {
-        if (eval(`${editorOutput} ${test.test}`)) {
-          passed.push(i);
-        };
-        // var testing = eval(editorOutput);
-        // console.log(JSON.stringify(testing, null, 2));
+      let processOutput = processEditor({
+        tests: this.challenges[this.selected].tests,
+        codeEditorValue: this.codeEditorValue
       });
-      component.testsPassed = passed;
+      this.exceptionMessage = processOutput.exceptionMessage;
+      this.testsPassed = processOutput.testsPassed;
     }
   },
   computed: {
-    showExceptionMsg () {
-      return !!this.exceptionMessage;
-    },
-    currentTests () {
-      return this.challenges[this.selected].tests;
-    },
-    currentCode () {
-      return this.challenges[this.selected].code;
-    },
-    currentTitle () {
-      return this.challenges[this.selected].title;
-    },
-    currentInfo () {
-      return this.challenges[this.selected].info;
-    }
+    showExceptionMsg () { return !!this.exceptionMessage; },
+    currentTests () { return this.challenges[this.selected].tests; },
+    currentCode () { return this.challenges[this.selected].code; },
+    currentTitle () { return this.challenges[this.selected].title; },
+    currentInfo () { return this.challenges[this.selected].info; }
   },
   watch: {
-    currentTitle () {
-      this.resetDataOnSelection()
-    }
+    currentTitle () { this.resetDataOnSelection(); }
   }
 }
 </script>
