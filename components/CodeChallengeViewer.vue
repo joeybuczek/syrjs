@@ -3,40 +3,49 @@
 
     <!-- Title and Challenge Selection -->
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-4 col-md-4">
         <h2 class="title">Code Challenge</h2>
       </div>
-      <div class="col-sm-8">
-        <select v-model="selected" class="form-control" id="select-challenge">
-          <option v-for="(c, i) in challenges" :key="i" :value="i">{{c.title}}</option>
-        </select>
-        <label id="select-challenge-label">Select a challenge:</label>
+      <div class="col-xs-12 col-sm-12 col-md-3">
+        <div class="form-group">
+          <select v-model="selectedEvent" class="form-control" id="select-event">
+            <option v-for="(e, i) in events" :key="i" :value="e.value">{{e.text}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-cxs-12 col-sm-12 col-md-5">
+        <div class="form-group">
+          <select v-model="selectedChallenge" class="form-control" id="select-challenge">
+            <option v-for="(c, i) in challenges" :key="i" :value="i">{{c.title}}</option>
+          </select>
+        </div>
       </div>
     </div>
 
     <!-- Tests and Editor -->
     <div class="row">
       <div class="col-sm-4">
-        <h6>{{currentTitle}}</h6>
-        <p>{{currentInfo}}</p>
-        <hr v-show="currentInfo">
-        <ul>
-          <li v-for="(t, i) in currentTests" :key="i">
-            {{testPassed(i)}} {{t.description}}
-          </li>
-        </ul>
-        <hr v-show="currentInfo">
-        <button 
-          v-show="currentInfo" 
-          @click="processEditor" 
-          class="btn btn-sm btn-primary"
-        >
-          Run Tests
-        </button>
+        <div v-show="challenge.info">
+          <h6>{{challenge.title}}</h6>
+          <p>{{challenge.info}}</p>
+          <hr>
+          <ul>
+            <li v-for="(t, i) in challenge.tests" :key="i">
+              {{testPassed(i)}} {{t.description}}
+            </li>
+          </ul>
+          <hr>
+          <button
+            @click="processEditor" 
+            class="btn btn-sm btn-primary"
+          >
+            Run Tests
+          </button>
+        </div>
       </div>
       <div class="col-sm-8">
         <editor editorId="editorCode" 
-          :value="currentCode"
+          :value="challenge.code"
           theme="monokai"
           :onValueChange="codeEditorChange">
         </editor>
@@ -52,9 +61,7 @@
 <script>
 import Editor from './Editor';
 
-// import tests/challenges/utils
-import ch01 from '../codechallenges/reverse_a_string';
-import ch02 from '../codechallenges/validate_a_palindrome';
+// import utils
 import { processEditor } from '../codechallenges/utils';
 
 // TODO: users should be able to cache/reset their code in the session
@@ -62,7 +69,8 @@ export default {
   components: { Editor },
   data () {
     return {
-      selected: 0,
+      selectedEvent: '',
+      selectedChallenge: 0,
       testsPassed: [],
       codeEditorValue: '// Code goes here...',
       testEditorValue: '// Tests go here...',
@@ -80,7 +88,7 @@ export default {
     },
     processEditor () {
       let processOutput = processEditor({
-        tests: this.challenges[this.selected].tests,
+        tests: this.challenges[this.selectedChallenge].tests,
         codeEditorValue: this.codeEditorValue
       });
       this.exceptionMessage = processOutput.exceptionMessage;
@@ -88,15 +96,23 @@ export default {
     }
   },
   computed: {
-    challenges () { return this.$store.getters.codeChallenges; },
+    challenges () {
+      let ccv = this;
+      return ccv.$store.getters.codeChallenges.filter(c => c.eventDate === ccv.selectedEvent);
+    },
+    events () {
+      return this.$store.getters.codeEvents;
+    },
     showExceptionMsg () { return !!this.exceptionMessage; },
-    currentTests () { return this.challenges[this.selected].tests; },
-    currentCode () { return this.challenges[this.selected].code; },
-    currentTitle () { return this.challenges[this.selected].title; },
-    currentInfo () { return this.challenges[this.selected].info; }
+    challenge () { return this.challenges[this.selectedChallenge]; }
   },
   watch: {
-    currentTitle () { this.resetDataOnSelection(); }
+    selectedEvent () {
+      this.selectedChallenge = 0;
+    },
+    challenge () {
+      this.resetDataOnSelection(); 
+    }
   }
 }
 </script>
@@ -113,9 +129,8 @@ li {
   display: inline-block;
   margin-bottom: 5px;
 }
-#select-challenge {
-  max-width: 400px;
-  float: right;
+.inline-label {
+  padding-right: 5px;
 }
 #select-challenge-label {
   float: right;

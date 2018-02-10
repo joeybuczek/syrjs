@@ -1,29 +1,35 @@
 import Vuex from 'vuex';
 
-// Tests in here for now, until retrieved via AJAX
-import ch01 from '../codechallenges/reverse_a_string';
-import ch02 from '../codechallenges/validate_a_palindrome';
+// Import challenges [c][e]
+import { challenges, events } from '../codechallenges';
 
-// Default challenge placeholder
-const challengeDefault = { 
+// Default select/option placeholders
+const challengeDefault = {
+  eventDate: '',
   tests: [], 
   code: '', 
   info: '', 
-  title: 'Select a Challenge!' 
+  title: 'Select Challenge' 
+};
+const eventDefault = {
+  value: '',
+  text: 'Select Event'
 };
 
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      loadedTests: [
-        challengeDefault, 
-        ch01, 
-        ch02
-      ]
+      challenges, // [c]
+      events      // [e]
     },
     getters: {
       codeChallenges (state) {
-        return state.loadedTests;
+        return [challengeDefault].concat(state.challenges);
+      },
+      codeEvents (state) {
+        return [eventDefault].concat(
+          state.events.map(event => ({ value: event, text: event }))
+        );
       }
     }
   })
