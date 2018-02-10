@@ -1,6 +1,6 @@
 {
   "name": "syrjs_static",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Static syrjs via Nuxt.js",
   "author": "Joey Buczek <joeybuczek@gmail.com>",
   "private": true,
