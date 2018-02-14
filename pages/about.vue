@@ -19,6 +19,10 @@
   </div>
 </template>
 
+<script>
+// THIS FILE IS CURRENT NOT BEING USED
+</script>
+
 <style>
 .about-container {
   padding: 20px;

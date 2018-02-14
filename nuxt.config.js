@@ -10,19 +10,18 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Static syrjs via Nuxt.js' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity: 'sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin: 'anonymous' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/codemirror.min.css' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/theme/monokai.min.css' },
     ],
     script: [
-      { src: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/codemirror.js' },
-      { src: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/mode/javascript/javascript.js' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/codemirror.min.js' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/mode/javascript/javascript.min.js' },
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js' }
     ]
   },
-  css: [
-    '~/assets/css/bootstrap.min.css',
-    '~/assets/css/codemirror.css',
-    '~/assets/css/monokai.css'
-  ],
+  css: [],
   /*
   ** Customize the progress bar color
   */
