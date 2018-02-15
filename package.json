@@ -17,7 +17,6 @@
     "url": "https://github.com/joeybuczek/syrjs.git"
   },
   "dependencies": {
-    "monaco-editor": "^0.10.1",
     "nuxt": "^1.0.0"
   },
   "devDependencies": {
