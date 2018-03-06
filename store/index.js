@@ -32,8 +32,8 @@ const eventDefault = {
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      challenges,//: [],
-      events//: []
+      challenges: [],
+      events: []
     },
     getters: {
       codeChallenges (state) {

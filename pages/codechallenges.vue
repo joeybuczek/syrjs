@@ -12,7 +12,7 @@ export default {
     CodeChallengeViewer
   },
   created(){
-    //this.$store.dispatch('loadChallenges');
+    this.$store.dispatch('loadChallenges');
   }
 }
 </script>
