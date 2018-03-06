@@ -10,6 +10,9 @@ import CodeChallengeViewer from '../components/CodeChallengeViewer.vue';
 export default {
   components: {
     CodeChallengeViewer
+  },
+  created(){
+    //this.$store.dispatch('loadChallenges');
   }
 }
 </script>

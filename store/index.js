@@ -1,26 +1,39 @@
 import Vuex from 'vuex';
 
-// Import challenges [c][e]
-import { challenges, events } from '../codechallenges';
+// Import challenges (Testing only. Production uses API action)
+import { codeChallenges } from '../codechallenges';
+
+// Format incoming code challenges into challenge/eventdate arrays,
+// given the following shape:
+// { 
+//   data: [
+//     { eventDate: '', challenges: [{}, {}, ...] }
+//   ]
+// }
+const challenges = codeChallenges.data
+  .map(c => c.challenges)
+  .reduce((p,n) => [...p, ...n], []);
+const events = codeChallenges.data.map(c => c.eventDate);
 
 // Default select/option placeholders
 const challengeDefault = {
   eventDate: '',
-  tests: [], 
-  code: '', 
+  title: 'Select Challenge' ,
   info: '', 
-  title: 'Select Challenge' 
+  tests: [], 
+  code: ''
 };
 const eventDefault = {
   value: '',
   text: 'Select Event'
 };
 
+// Vuex Store
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      challenges, // [c]
-      events      // [e]
+      challenges,//: [],
+      events//: []
     },
     getters: {
       codeChallenges (state) {
@@ -28,8 +41,30 @@ const createStore = () => {
       },
       codeEvents (state) {
         return [eventDefault].concat(
-          state.events.map(event => ({ value: event, text: event }))
+          state.events.map(event => ({ 
+            value: event, 
+            text: `${event.slice(0,2)}/${event.slice(2,4)}/${event.slice(4)}` 
+          }))
         );
+      }
+    },
+    mutations: {
+      loadChallenges (state, payload) {
+        state.challenges = payload;
+      },
+      loadEvents (state, payload) {
+        state.events = payload;
+      }
+    },
+    actions: {
+      async loadChallenges ({commit}) {
+        const apiResult = await this.$axios.$get('https://syrjs-api.herokuapp.com/api/codechallenge');
+        let challenges = apiResult.data
+          .map(c => c.challenges)
+          .reduce((p,n) => [...p, ...n], []);
+        let events = apiResult.data.map(c => c.eventDate);
+        commit('loadChallenges', challenges);
+        commit('loadEvents', events);
       }
     }
   })

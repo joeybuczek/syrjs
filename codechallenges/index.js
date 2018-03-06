@@ -8,11 +8,20 @@ import event_112117 from './event_112117';
 
 // Export for Vuex store to utilize here
 // Be sure to extract both challenges and events
-export const challenges = [
-  ...event_101717.challenges,
-  ...event_112117.challenges
-];
-export const events = [
-  event_101717.eventDate,
-  event_112117.eventDate
-];
+// export const challenges = [
+//   ...event_template.challenges,
+//   ...event_101717.challenges,
+//   ...event_112117.challenges
+// ];
+// export const events = [
+//   event_template.eventDate,
+//   event_101717.eventDate,
+//   event_112117.eventDate
+// ];
+
+export const codeChallenges = { 
+  data: [
+    event_101717,
+    event_112117
+  ]
+};

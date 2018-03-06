@@ -1,4 +1,4 @@
-let eventDate = '11/21/17';
+let eventDate = '112117';
 
 let characterCounter = {
   eventDate,

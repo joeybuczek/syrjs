@@ -1,4 +1,4 @@
-let eventDate = '10/17/17';
+let eventDate = '101717';
 
 let reverseAString = {
   eventDate,
