@@ -45,7 +45,7 @@
       </div>
       <div class="col-sm-8">
         <editor editorId="editorCode" 
-          :value="challenge.code"
+          :value="currentChallengeCodeValue"
           theme="monokai"
           :onValueChange="codeEditorChange">
         </editor>
@@ -72,6 +72,7 @@ export default {
       selectedEvent: '',
       selectedChallenge: 0,
       testsPassed: [],
+      currentChallengeCodeValue: '', // use this for local storage
       codeEditorValue: '// Code goes here...',
       testEditorValue: '// Tests go here...',
       exceptionMessage: ''
@@ -84,15 +85,35 @@ export default {
       let ccv = this;
       ccv.exceptionMessage = '';
       ccv.testsPassed = [];
-      setTimeout(() => ccv.processEditor(), 200);
+      // setTimeout(() => ccv.processEditor(), 200); // Turn off for now
     },
     processEditor () {
+      let { eventDate, title, tests } = this.challenge;
       let processOutput = processEditor({
-        tests: this.challenges[this.selectedChallenge].tests,
+        tests: tests, //this.challenges[this.selectedChallenge].tests,
         codeEditorValue: this.codeEditorValue
       });
       this.exceptionMessage = processOutput.exceptionMessage;
       this.testsPassed = processOutput.testsPassed;
+      // Save user's code to local storage
+      window.localStorage[`${eventDate}${title}`] = this.codeEditorValue;
+    },
+    manageLocalStorage () {
+      // Check to see if a valid code challenge is loaded, and if so, load it into localStorage...
+      let { code, eventDate, title } = this.challenge;
+      let isValidChallenge = !!code && !!eventDate;
+      if (isValidChallenge) {
+        let challengeKey = `${eventDate}${title}`;
+        if (!!window.localStorage[challengeKey]) {
+          this.currentChallengeCodeValue = window.localStorage[challengeKey];
+        } else {
+          window.localStorage[challengeKey] = code;
+          this.currentChallengeCodeValue = code;
+        }
+      } else {
+        // ...otherwise just use the code placeholder value
+        this.currentChallengeCodeValue = code;
+      }
     }
   },
   computed: {
@@ -109,9 +130,11 @@ export default {
   watch: {
     selectedEvent () {
       this.selectedChallenge = 0;
+      this.manageLocalStorage();
     },
     challenge () {
-      this.resetDataOnSelection(); 
+      this.resetDataOnSelection();
+      this.manageLocalStorage();
     }
   }
 }

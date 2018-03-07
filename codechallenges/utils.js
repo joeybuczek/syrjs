@@ -7,6 +7,7 @@ export const processEditor = ({
   let editorOutput;
 
   // check editor values for exceptions, and if any, return with exception message
+  // Babel is loaded globally in this application
   try {
     editorOutput = Babel.transform(codeEditorValue, { presets }).code;
   } catch(e){

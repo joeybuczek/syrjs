@@ -1,9 +1,10 @@
 import Vuex from 'vuex';
 
+// ========================[TESTING]===========================
 // Import challenges (Testing only. Production uses API action)
 import { codeChallenges } from '../codechallenges';
 
-// Format incoming code challenges into challenge/eventdate arrays,
+// Format code challenges into challenge/eventdate arrays,
 // given the following shape:
 // { 
 //   data: [
@@ -14,6 +15,7 @@ const challenges = codeChallenges.data
   .map(c => c.challenges)
   .reduce((p,n) => [...p, ...n], []);
 const events = codeChallenges.data.map(c => c.eventDate);
+// ============================================================
 
 // Default select/option placeholders
 const challengeDefault = {
@@ -57,14 +59,19 @@ const createStore = () => {
       }
     },
     actions: {
-      async loadChallenges ({commit}) {
-        const apiResult = await this.$axios.$get('https://syrjs-api.herokuapp.com/api/codechallenge');
-        let challenges = apiResult.data
-          .map(c => c.challenges)
-          .reduce((p,n) => [...p, ...n], []);
-        let events = apiResult.data.map(c => c.eventDate);
-        commit('loadChallenges', challenges);
-        commit('loadEvents', events);
+      async loadChallenges ({commit, state}) {
+        // Only load challenges from API if not already loaded
+        if (state.challenges.length === 0) {
+          const apiResult = await this.$axios.$get('https://syrjs-api.herokuapp.com/api/codechallenge');
+          let challenges = apiResult.data
+            .map(c => c.challenges)
+            .reduce((p,n) => [...p, ...n], []);
+          let events = apiResult.data.map(c => c.eventDate);
+          commit('loadChallenges', challenges);
+          commit('loadEvents', events);
+        } else {
+          console.log('Challenges already loaded...')
+        }
       }
     }
   })
