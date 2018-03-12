@@ -12,7 +12,7 @@ export default {
     CodeChallengeViewer
   },
   created(){
-    this.$store.dispatch('loadChallenges');
+    process.env.dataLocation !== 'local' && this.$store.dispatch('loadChallenges');
   },
   head: {
     script: [

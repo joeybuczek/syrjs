@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 // ========================[TESTING]===========================
 // Import challenges (Testing only. Production uses API action)
 import { codeChallenges } from '../codechallenges';
+const isLocal = process.env.dataLocation === 'local';
 
 // Format code challenges into challenge/eventdate arrays,
 // given the following shape:
@@ -34,8 +35,8 @@ const eventDefault = {
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      challenges: [],
-      events: []
+      challenges: isLocal ? challenges : [],
+      events: isLocal ? events : []
     },
     getters: {
       codeChallenges (state) {

@@ -58,5 +58,9 @@ module.exports = {
         })
       }
     }
+  },
+  env: {
+    // Check if data is local or returned from api - use local for testing/development
+    dataLocation: process.env.DATA_LOCATION || 'local'
   }
 }
