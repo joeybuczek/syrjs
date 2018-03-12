@@ -37,6 +37,9 @@ let exampleChallengeOne = {
       description: "exampleOne() should return a boolean"
     }
   ],
+  resources: [
+    { source: 'http://www.google.com', description: 'Google' }
+  ],
   code: "function exampleOne() { return undefined; }"
 };
 
@@ -53,6 +56,9 @@ let exampleChallengeTwo = {
       test: "exampleTwo().length === 3",
       description: "exampleTwo should return a string of length 3"
     }
+  ],
+  resources: [
+    { source: 'http://www.google.com', description: 'Google' }
   ],
   code: "function exampleTwo() { return undefined; }"
 };

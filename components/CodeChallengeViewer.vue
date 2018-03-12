@@ -9,14 +9,18 @@
       <div class="col-xs-12 col-sm-12 col-md-3">
         <div class="form-group">
           <select v-model="selectedEvent" class="form-control" id="select-event">
-            <option v-for="(e, i) in events" :key="i" :value="e.value">{{e.text}}</option>
+            <option v-for="(event, i) in events" :key="i" :value="event.value">
+              {{event.text}}
+            </option>
           </select>
         </div>
       </div>
       <div class="col-cxs-12 col-sm-12 col-md-5">
         <div class="form-group">
           <select v-model="selectedChallenge" class="form-control" id="select-challenge">
-            <option v-for="(c, i) in challenges" :key="i" :value="i">{{c.title}}</option>
+            <option v-for="(challenge, i) in challenges" :key="i" :value="i">
+              {{challenge.title}}
+            </option>
           </select>
         </div>
       </div>
@@ -28,26 +32,30 @@
         <div v-show="challenge.info">
           <h6>{{challenge.title}}</h6>
           <p>{{challenge.info}}</p>
+          <div v-if="challenge.resources">
+            <h6>Helpful Resources</h6>
+            <p v-for="(resource, i) in challenge.resources" :key="i">
+              <a :href="resource.source" target="_blank">{{resource.description}}</a>
+            </p>
+          </div>
           <hr>
           <ul>
-            <li v-for="(t, i) in challenge.tests" :key="i">
-              {{testPassed(i)}} {{t.description}}
+            <li v-for="(test, i) in challenge.tests" :key="i">
+              {{testPassed(i)}} {{test.description}}
             </li>
           </ul>
           <hr>
-          <button
-            @click="processEditor" 
-            class="btn btn-sm btn-primary"
-          >
-            Run Tests
+          <button class="btn btn-sm btn-primary" @click="processEditor">
+            Run Tests <span class="btn-text-sm">(Ctrl+Enter)</span>
           </button>
         </div>
       </div>
       <div class="col-sm-8">
         <editor editorId="editorCode" 
-          :value="currentChallengeCodeValue"
           theme="monokai"
-          :onValueChange="codeEditorChange">
+          :value="currentChallengeCodeValue"
+          :onValueChange="codeEditorChange"
+          :processEditorCode="processEditor">
         </editor>
         <pre v-show="showExceptionMsg" class="exception-area">
           {{exceptionMessage}}
@@ -69,18 +77,22 @@ export default {
   components: { Editor },
   data () {
     return {
-      selectedEvent: '',
-      selectedChallenge: 0,
-      testsPassed: [],
       currentChallengeCodeValue: '', // use this for local storage
       codeEditorValue: '// Code goes here...',
+      exceptionMessage: '',
+      selectedEvent: '',
+      selectedChallenge: 0,
       testEditorValue: '// Tests go here...',
-      exceptionMessage: ''
+      testsPassed: []
     }
   },
   methods: {
-    testPassed (i) { return this.testsPassed.indexOf(i) >= 0 ? '✅' : '❌'; },
-    codeEditorChange (value) { this.codeEditorValue = value; },
+    testPassed (i) { 
+      return this.testsPassed.indexOf(i) >= 0 ? '✅' : '❌'; 
+    },
+    codeEditorChange (value) { 
+      this.codeEditorValue = value;
+    },
     resetDataOnSelection () {
       let ccv = this;
       ccv.exceptionMessage = '';
@@ -90,8 +102,8 @@ export default {
     processEditor () {
       let { eventDate, title, tests } = this.challenge;
       let processOutput = processEditor({
-        tests: tests, //this.challenges[this.selectedChallenge].tests,
-        codeEditorValue: this.codeEditorValue
+        codeEditorValue: this.codeEditorValue,
+        tests
       });
       this.exceptionMessage = processOutput.exceptionMessage;
       this.testsPassed = processOutput.testsPassed;
@@ -110,8 +122,8 @@ export default {
           window.localStorage[challengeKey] = code;
           this.currentChallengeCodeValue = code;
         }
+      // ...otherwise just use the code placeholder value from the incoming challenge
       } else {
-        // ...otherwise just use the code placeholder value
         this.currentChallengeCodeValue = code;
       }
     }
@@ -124,8 +136,12 @@ export default {
     events () {
       return this.$store.getters.codeEvents;
     },
-    showExceptionMsg () { return !!this.exceptionMessage; },
-    challenge () { return this.challenges[this.selectedChallenge]; }
+    showExceptionMsg () { 
+      return !!this.exceptionMessage; 
+    },
+    challenge () { 
+      return this.challenges[this.selectedChallenge]; 
+    }
   },
   watch: {
     selectedEvent () {
@@ -166,5 +182,8 @@ li {
   font-weight: bold !important;
   border: 1px solid darkred;
   padding: 5px;
+}
+.btn-text-sm {
+  font-size: 10px;
 }
 </style>

@@ -18,6 +18,9 @@ let characterCounter = {
       description: 'charCount("syrjs") should contain the following object: { s: 2 }'
     }
   ],
+  resources: [
+    { source: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array', description: 'JavaScript Arrays' }
+  ],
   code: `function charCount(str) {
   // Your code goes here:
   return str;

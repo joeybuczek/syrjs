@@ -1,6 +1,6 @@
 export const processEditor = ({
-  tests,
-  codeEditorValue
+  codeEditorValue,
+  tests
 }) => {
   let presets = ['es2015', 'react', 'stage-0'];
   let processOutput = { exceptionMessage: '', testsPassed: [] };
