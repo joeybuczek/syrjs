@@ -17,15 +17,22 @@
       To see all the upcoming events to attend, click 
       <a href="https://www.meetup.com/Syracuse-Software-Development-Meetup/events/" target="_blank">here.</a>
     </p>
+    <p class="about-text">
+      This version of the site was created using 
+      <a href="https://vuejs.org/" target="_blank">Vue</a> 
+      via 
+      <a href="https://nuxtjs.org/" target="_blank">Nuxt</a>
+    </p>
   </div>
 </template>
 
 <style>
 .about-container {
-  padding: 20px;
+  padding: 40px;
+  text-align: center;
 }
 .about-title {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .about-text {
   font-size: 14px;
