@@ -34,14 +34,16 @@
           <p>{{challenge.info}}</p>
           <div v-if="challenge.resources">
             <h6>Helpful Resources</h6>
-            <p v-for="(resource, i) in challenge.resources" :key="i">
-              <a :href="resource.source" target="_blank">{{resource.description}}</a>
-            </p>
+            <ul>
+              <li v-for="(resource, i) in challenge.resources" :key="i">
+                <a :href="resource.source" target="_blank">{{resource.description}}</a>
+              </li>
+            </ul>
           </div>
           <hr>
           <ul>
             <li v-for="(test, i) in challenge.tests" :key="i">
-              {{testPassed(i)}} {{test.description}}
+              {{test.bulletStyle || testPassed(i)}} {{test.description}}
             </li>
           </ul>
           <hr>
@@ -165,7 +167,6 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
   margin-bottom: 5px;
 }
 .inline-label {

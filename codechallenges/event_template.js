@@ -34,7 +34,8 @@ let exampleChallengeOne = {
   tests: [
     {
       test: "typeof exampleOne() === 'boolean'",
-      description: "exampleOne() should return a boolean"
+      description: "exampleOne() should return a boolean",
+      bulletStyle: "⚪"
     }
   ],
   resources: [
